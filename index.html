@@ -1,13 +1,171 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Create a crazy, energetic website design</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Odyssey Hub</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: #0a0a23;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+        }
+
+        /* Starry Background */
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="white"/></svg>') repeat;
+            animation: twinkle 10s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* Planet */
+        .planet {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #ff6b6b, #4ecdc4, #45b7d1);
+            border-radius: 50%;
+            position: absolute;
+            top: 20%;
+            left: 10%;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: orbit 20s infinite linear;
+        }
+
+        @keyframes orbit {
+            0% { transform: rotate(0deg) translateX(100px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+        }
+
+        /* Spaceship */
+        .spaceship {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.2s ease;
+        }
+
+        /* Main Content */
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 4em;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #ff00cc, #3333ff);
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: glow 3s infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px #ff00cc, 0 0 20px #3333ff; }
+            50% { text-shadow: 0 0 20px #ff00cc, 0 0 40px #3333ff; }
+        }
+
+        p {
+            font-size: 1.5em;
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background: #ff00cc;
+            border: none;
+            color: #fff;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            background: #3333ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="planet"></div>
+    <div class="spaceship" id="spaceship">🚀</div>
+    <div class="content">
+        <h1>Space Odyssey Hub</h1>
+        <p>Explore the cosmos, one click at a time!</p>
+        <button onclick="launch()">Launch Adventure</button>
+    </div>
+
+    <script>
+        const spaceship = document.getElementById('spaceship');
+        let posX = window.innerWidth / 2;
+        let posY = window.innerHeight / 2;
+
+        // Move spaceship with mouse
+        document.addEventListener('mousemove', (e) => {
+            posX = e.clientX;
+            posY = e.clientY;
+            spaceship.style.left = posX + 'px';
+            spaceship.style.top = posY + 'px';
+        });
+
+        // Launch button effect
+        function launch() {
+            spaceship.style.fontSize = '100px';
+            spaceship.style.transition = 'all 2s';
+            spaceship.style.left = '100vw';
+            spaceship.style.top = '-100vh';
+
+            setTimeout(() => {
+                spaceship.style.fontSize = '50px';
+                spaceship.style.left = '50%';
+                spaceship.style.top = '50%';
+                alert('Blast off! Welcome to the cosmic journey!');
+            }, 2000);
+        }
+
+        // Random shooting stars
+        setInterval(() => {
+            let star = document.createElement('div');
+            star.style.position = 'absolute';
+            star.style.width = '5px';
+            star.style.height = '5px';
+            star.style.background = '#fff';
+            star.style.borderRadius = '50%';
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = '-10px';
+            star.style.animation = 'shoot 1s linear';
+            document.body.appendChild(star);
+
+            star.addEventListener('animationend', () => star.remove());
+        }, 1000);
+
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = `
+            @keyframes shoot {
+                0% { transform: translateY(0); }
+                100% { transform: translateY(110vh); }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+    </script>
+</body>
 </html>
